@@ -17,6 +17,10 @@ class PostForm extends React.Component {
     
     const {title} = this.state
 
+    if (!title.trim()) {
+      return
+    }
+
     const newPost = { 
       // можно записать короче (аля title, id:Date.now().toString())
       title: title,
