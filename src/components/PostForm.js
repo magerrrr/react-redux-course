@@ -1,5 +1,9 @@
 import React from 'react'
-export default class PostForm extends React.Component {
+import {connect} from 'react-redux'
+import {createPost} from "../redux/actions";
+import {postsReducer} from "../redux/postsReducer";
+
+class PostForm extends React.Component {
   constructor(props) {
     super(props)
 
@@ -19,7 +23,7 @@ export default class PostForm extends React.Component {
       id: Date.now().toString()
     }
 
-    console.log(newPost)
+    this.props.createPost(newPost); // в закулисах эта функция будет вызывать dispatch(), тем самым изменять наш state
     this.setState({ title: '' }) // очистка input'a
   }
   changeInputHandler = event => { // универсальная функция для обработки множества inputs
@@ -47,3 +51,12 @@ export default class PostForm extends React.Component {
     )
   }
 }
+
+//Функция в которой мы мапим функцию dispatch на пропсы и в итоге в компоненте у нас будет функция
+//которая называется this.state.createPost() и в нее мы можем кинуть наш новый пост newPost
+const mapDispatchToProps = {
+  // the same with createPost:createPost
+  createPost
+};
+
+export default connect(null, mapDispatchToProps)(PostForm)
